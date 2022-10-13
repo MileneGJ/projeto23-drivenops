@@ -1,4 +1,4 @@
-import prisma from './../src/database.js';
+import prisma from './../src/database';
 
 async function main() {
   console.log('Running Seed...');
