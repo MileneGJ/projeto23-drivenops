@@ -6,17 +6,13 @@ services:
     ports:
       - 2345:5432
     env_file:
-      - .env #configurar POSTGRES_USER, POSTGRES_PASSWORD e POSTGRES_DB
-    volumes:
-      - pg:/var/lib/postgresql/data
+      - ./back-end/.env.test #configurar POSTGRES_USER, POSTGRES_PASSWORD e POSTGRES_DB
 
   ts_node_app:
     build:
-      context: .
+      context: ./back-end
       dockerfile: Dockerfile
-      target: production
-    volumes:
-      - ./src:/home/node/app/src
+      target: base
     container_name: ts_node_app
     expose:
       - '5000'
@@ -25,7 +21,4 @@ services:
     depends_on:
       - db # só sobe quando o postgres tiver no ar
     env_file:
-      - .env #configurar DATABASE_URL
-    command: npm start
-volumes:
-  pg:
+      - ./back-end/.env.test #configurar DATABASE_URL

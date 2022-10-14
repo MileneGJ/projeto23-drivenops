@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    restart: always #container reinicia se morrer
+    ports:
+      - 2345:5432
+    env_file:
+      - ./back-end/.env #configurar POSTGRES_USER, POSTGRES_PASSWORD e POSTGRES_DB
+    volumes:
+      - pg:/var/lib/postgresql/data
+
+  ts_node_app:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+      target: production
+    container_name: ts_node_app
+    expose:
+      - '5000'
+    ports:
+      - 5000:5000
+    depends_on:
+      - db # só sobe quando o postgres tiver no ar
+    env_file:
+      - ./back-end/.env #configurar DATABASE_URL
+    command: npm start
+
+  app_react:
+    build: ./front-end
+    container_name: app_react
+    volumes:
+      - build_react:/var/www/html
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - build_react:/var/www/html
+    depends_on:
+      - app_react
+
+volumes:
+  pg:
+  build_react:
