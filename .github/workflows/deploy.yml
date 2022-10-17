@@ -1,0 +1,13 @@
+name: Deploy on AWS
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  AmazonDeploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
