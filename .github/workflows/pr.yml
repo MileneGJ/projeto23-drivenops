@@ -9,7 +9,6 @@ jobs:
       - name: Make envfile
         working-directory: ./back-end
         uses: SpicyPizza/create-envfile@v1
-				#precisamos criar um .env file por que o nosso está no gitignore
         with:
           envkey_POSTGRES_USER: "postgres"
           envkey_POSTGRES_PASSWORD: "147MgJ"
